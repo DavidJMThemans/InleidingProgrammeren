@@ -41,7 +41,7 @@ const charizard = document.querySelector("#charizard");
 const zoryu = document.querySelector("#zoryu")
 
 //Array voor de afbeeldingen van de verschillende aantal healthpoints
-const hpArray = ['0hp.png', '1hp.png', '2hp.png', '3hp.png', '4hp.png', '5hp.png', '6hp.png', '7hp.png', '8hp.png', '9hp.png', '10hp.png', '11hp.png', '12hp.png', '13hp.png', '14hp.png', '15hp.png'];
+const hpArray = ['0HP.png', '1HP.png', '2HP.png', '3HP.png', '4HP.png', '5HP.png', '6HP.png', '7HP.png', '8HP.png', '9HP.png', '10HP.png', '11HP.png', '12HP.png', '13HP.png', '14HP.png', '15HP.png'];
 
 //Weergave van de enemy- en player healthbar
 function updateEnemyDisplay() {
