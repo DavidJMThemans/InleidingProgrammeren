@@ -1,4 +1,7 @@
 //BRONNEN
+//Sound bites: https://www.reddit.com/r/PokemonROMhacks/comments/9xgl7j/pokemon_sound_effects_collection_over_3200_sfx/
+//Background theme: https://youtu.be/LgK2f47q8cU?list=PLNVA15CuezfM-AZLt6IM9Xwk3VGySwn8R 
+//Victory audio: https://youtu.be/NFch6XO5I_c 
 //Achtergrond: https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.fiverr.com%2Fpikatchoum%2Fdraw-a-pixel-pokemon-battle-background&psig=AOvVaw1hI2aVKPT2EQ2_suiHgDJu&ust=1748801012097000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCJDQ4sqlzo0DFQAAAAAdAAAAABAE
 //Charizard: https://www.google.com/url?sa=i&url=https%3A%2F%2Fdeathbattle.fandom.com%2Ff%2Ft%2FCharizard&psig=AOvVaw0FssbSoVTwwk8KdksSwpV5&ust=1748801388987000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCLiKvP-mzo0DFQAAAAAdAAAAABAV 
 //Zoryu: https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.artstation.com%2Fartwork%2FBXLZP6&psig=AOvVaw2GCyPY8cBDL5NPXf-Rl0qk&ust=1748801370200000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCLi_8vWmzo0DFQAAAAAdAAAAABAE
@@ -16,6 +19,13 @@ const maxEnemyHealth = 15;
 
 let playerHealth = 15;
 const maxPlayerHealth = 15;
+
+//Startknop op beginscherm
+const startButton = document.getElementById("startknop");
+const startScherm = document.getElementById("startscherm");
+const theme = new Audio("audio/pokemonsoundtrack.mp3");
+const victoryAudio = new Audio("audio/victoryaudio.mp3");
+const lossAudio = new Audio("audio/lossaudio.mp3");
 
 //Healthbars
 const hpenemy = document.querySelector("#healthbarenemy");
@@ -40,6 +50,13 @@ const fleeButton = document.querySelector("#Flee");
 const charizard = document.querySelector("#charizard");
 const zoryu = document.querySelector("#zoryu")
 
+//Verschillende audio
+const attackAudioEnemy = new Audio("audio/charizardhit.mp3");
+const attackAudioPlayer = new Audio("audio/zoryuhit.mp3");
+const attackAudioSpecial = new Audio("audio/basichit.mp3");
+const healAudio = new Audio("audio/heal.mp3");
+
+
 //Array voor de afbeeldingen van de verschillende aantal healthpoints
 const hpArray = ['0HP.png', '1HP.png', '2HP.png', '3HP.png', '4HP.png', '5HP.png', '6HP.png', '7HP.png', '8HP.png', '9HP.png', '10HP.png', '11HP.png', '12HP.png', '13HP.png', '14HP.png', '15HP.png'];
 
@@ -62,6 +79,7 @@ function enemyAttackFunction() {
     void hpself.offsetWidth; //Browser de breedte laten herbereken en vergeten (void) om te laten weten dat er iets is veranderd zodat de class opnieuw toegevoegd kan worden (hulp van ChatGPT)
     hpself.classList.add('hit-flash'); //Toevoegen van de hit-flash class
 
+    attackAudioEnemy.play();
 
   message.textContent += ` The enemy attacks! You lose ${damage} HP.`; //Toeveoegen van tekst onderin het scherm met de accurate hoeveelheid damage
 
@@ -75,6 +93,8 @@ function checkPlayerFaint() {
         message.textContent = "You fainted! Game over."; //Tekst wordt weergegeven onderin scherm
         zoryu.classList.add('fade-out'); //Class wordt toegevoegd aan de afbeelding van Zoryu, void niet nodig want eerste keer aanroepen
         disableAllButtons(); //Functie wordt aangeroepen zodat alle buttons uit worden gezet
+        theme.pause(); //Theme audio stoppen
+        lossAudio.play(); //Audio afspelen
     }
 }
 
@@ -83,6 +103,8 @@ function checkEnemyFaint() {
     if (enemyHealth <= 0) { //Checken of de enemy minder of precies 0HP heeft, als dit klopt worden de volgende dingen aangeroepen:
         message.textContent = 'Enemy fainted!'; //Tekst
         charizard.classList.add('fade-out'); //Class toevoegen
+        theme.pause(); //Theme audio stoppen
+        victoryAudio.play(); //Audio afspelen 
         disableAllButtons(); //Functie
     }
 }
@@ -105,7 +127,8 @@ function attackBasicFunction() {
     hpenemy.classList.remove('shake', 'hit-flash');
     void hpenemy.offsetWidth;
     hpenemy.classList.add('shake', 'hit-flash');
-    
+
+    attackAudioPlayer.play();
 
     message.textContent = `Attack hit! You did ${damage} damage.`;
     checkEnemyFaint(); //Functie aanroepen die checkt of de enemy nog leeft of niet
@@ -126,11 +149,13 @@ function attackSpecialFunction() {
     void hpenemy.offsetWidth;
     hpenemy.classList.add('shake', 'hit-flash');
 
+    attackAudioSpecial.play();
+
     message.textContent = `Special attack hit! You did ${damage} damage.`;
     checkEnemyFaint();
 
     if (enemyHealth > 0) {
-        setTimeout(enemyAttackFunction, 1000);
+        setTimeout(enemyAttackFunction, 1500);
   }
 }
 }
@@ -140,10 +165,12 @@ function healFunction() {
     playerHealth = Math.min(maxPlayerHealth, playerHealth + 4); //Nieuwe player health wordt berkekend door oude health + 4HP te doen
     updatePlayerDisplay();
 
+    healAudio.play();
+
     message.textContent = 'You used a potion! +4 HP.';
 
     if (enemyHealth > 0) {
-        setTimeout(enemyAttackFunction, 1000);
+        setTimeout(enemyAttackFunction, 2000);
   }
   }
 }
@@ -153,10 +180,12 @@ function superpotionFunction() { //Zelfde functie als hiervoor, maar dan met +7H
     playerHealth = Math.min(maxPlayerHealth, playerHealth + 7);
     updatePlayerDisplay();
 
+    healAudio.play();
+
     message.textContent = 'You used a super potion! +7 HP.';
 
     if (enemyHealth > 0) {
-        setTimeout(enemyAttackFunction, 1000);
+        setTimeout(enemyAttackFunction, 2000);
   }
   }
 }
@@ -200,8 +229,19 @@ function potionsToMenu() { //Zorgt ervoor dat de heal functies weer verborgen wo
   potionsMenu.classList.remove('hidden');
 }
 
+function startschermFunction() {
+    startScherm.classList.add('hidden');
+}
+
 //EVENT LISTENERS OM TE CHECKEN OF EEN KNOP INGEDRUKT WORDT
 
+function startFunction() {
+    startScherm.style.display = "none";
+  
+    theme.play();
+}
+
+startButton.addEventListener("click", startFunction)
 basicAttack.addEventListener("click", attackBasicFunction); //Roept basic attack funtie aan als basicAttack button wordt gebruikt
 specialAttack.addEventListener("click", attackSpecialFunction); //Roept special attack funtie aan als specialAttack button wordt gebruikt
 healButton.addEventListener("click", healFunction); //Roept basic heal funtie aan als healButton button wordt gebruikt

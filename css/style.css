@@ -57,6 +57,20 @@ body {
     height: 54.27vw;
 }
 
+#startscherm {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('../images/pokemonstartbackground.webp');
+        background-size: cover;
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+}
+
 #attackscontainer {
     display: flex;
     flex-wrap: nowrap;
