@@ -2,6 +2,7 @@
 //Sound bites: https://www.reddit.com/r/PokemonROMhacks/comments/9xgl7j/pokemon_sound_effects_collection_over_3200_sfx/
 //Background theme: https://youtu.be/LgK2f47q8cU?list=PLNVA15CuezfM-AZLt6IM9Xwk3VGySwn8R 
 //Victory audio: https://youtu.be/NFch6XO5I_c 
+//Loss audio: https://youtu.be/_OtRvUYulXc 
 //Achtergrond: https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.fiverr.com%2Fpikatchoum%2Fdraw-a-pixel-pokemon-battle-background&psig=AOvVaw1hI2aVKPT2EQ2_suiHgDJu&ust=1748801012097000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCJDQ4sqlzo0DFQAAAAAdAAAAABAE
 //Charizard: https://www.google.com/url?sa=i&url=https%3A%2F%2Fdeathbattle.fandom.com%2Ff%2Ft%2FCharizard&psig=AOvVaw0FssbSoVTwwk8KdksSwpV5&ust=1748801388987000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCLiKvP-mzo0DFQAAAAAdAAAAABAV 
 //Zoryu: https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.artstation.com%2Fartwork%2FBXLZP6&psig=AOvVaw2GCyPY8cBDL5NPXf-Rl0qk&ust=1748801370200000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCLi_8vWmzo0DFQAAAAAdAAAAABAE
@@ -156,8 +157,8 @@ function attackSpecialFunction() {
 
     if (enemyHealth > 0) {
         setTimeout(enemyAttackFunction, 1500);
-  }
-}
+        }
+    }
 }
 
 function healFunction() {
@@ -171,7 +172,7 @@ function healFunction() {
 
     if (enemyHealth > 0) {
         setTimeout(enemyAttackFunction, 2000);
-  }
+    }
   }
 }
 
@@ -186,7 +187,7 @@ function superpotionFunction() { //Zelfde functie als hiervoor, maar dan met +7H
 
     if (enemyHealth > 0) {
         setTimeout(enemyAttackFunction, 2000);
-  }
+    }
   }
 }
 
@@ -237,18 +238,25 @@ function startschermFunction() {
 
 function startFunction() {
     startScherm.style.display = "none";
-  
     theme.play();
 }
 
-startButton.addEventListener("click", startFunction)
+startButton.addEventListener("click", startFunction); //Roept functie op die ervoor zorgt dat het startscherm verdwijnt na drukken op de startknop
+
 basicAttack.addEventListener("click", attackBasicFunction); //Roept basic attack funtie aan als basicAttack button wordt gebruikt
+
 specialAttack.addEventListener("click", attackSpecialFunction); //Roept special attack funtie aan als specialAttack button wordt gebruikt
+
 healButton.addEventListener("click", healFunction); //Roept basic heal funtie aan als healButton button wordt gebruikt
+
 superPotionButton.addEventListener("click", superpotionFunction); //Roept super potion funtie aan als superPotionButton button wordt gebruikt
+
 attackMenu.addEventListener("click", revealAttacks); //Roept de functie aan die het attack menu weergeeft als er op de attackMenu knop gedrukt wordt
+
 backAttacksButton.addEventListener("click", attacksToMenu); //Roept de functie aan die het attack menu verbergt als er op de backAttacksMenu knop gedrukt wordt
+
 potionsMenu.addEventListener("click", revealPotions); //Roept de functie aan die het potions menu weergeeft als er op de potionsMenu knop gedrukt wordt
+
 backPotionsButton.addEventListener("click", potionsToMenu); //Roept de functie aan die het potions menu verbergt als er op de backPotionsMenu knop gedrukt wordt
 
 
